@@ -16,7 +16,7 @@ struct TRAIN
 	int time_dep[2];
 };
 
-void LoadDataTrain(TRAIN n[], int size)
+void LoadDataTrain(TRAIN* n, int& size)
 {
 	FILE* f;
 	struct _finddata_t myfileinfo;
@@ -27,20 +27,20 @@ void LoadDataTrain(TRAIN n[], int size)
 	}
 	fopen_s(&f, "train.txt", "rb");
 	while (!feof(f)) {
-		//fread(&n[size], size, 1, f);
-		fread(&n[size], sizeof(n), 1, f);
+		fread(&n[size], sizeof(TRAIN), 1, f);
 		size++;
 	}
 	fclose(f);
 	size--;
+	cout << size;
 
 }
 void save_file_tr(TRAIN* n, int& size) {
 	FILE* f;
-	const char* filename = "train.txt";
+	//const char* filename = "train.txt";
 	//const char* filename = "FirstFile.txt";
 	fopen_s(&f, "train.txt", "wb");
-	fwrite(&n[0], sizeof(n), size, f);
+	fwrite(&n[0], sizeof(TRAIN), size, f);
 	fclose(f);
 }
 
@@ -91,55 +91,55 @@ void delete_train(TRAIN a[], int& size) {
 	cin >> dell_train;
 	cout << size << endl;
 	for (int i = 0; i < size; i++)
-		if (strcmp(a[i].numberTrain, dell_train))
+		if (!strcmp(a[i].numberTrain, dell_train))
 		{
 			dell_i = i;
 			break;
 		}
-
-	for (size_t i = dell_i; i < size; i++)
-		a[i] = a[i + 1];
+	if (size > 1)
+		for (size_t i = dell_i; i < size; i++)
+			a[i] = a[i + 1];
 	size--;
 }
 
 void search_pointA(TRAIN n[], char c[], int size) {
-	cout << "pointA" << c;
 	for (int i = 0; i < size; i++) {
 		if (strcmp(c, n[i].pointA) == 0)
 		{
-			cout << n[i].pointA << endl;
-			cout << n[i].pointB << endl;
-			cout << n[i].numberTrain << endl;
-			cout << n[i].time_dep << endl;
+			cout << "\t" << n[i].pointA << endl;
+			cout << "\t" << n[i].pointB << endl;
+			cout << "\t" << n[i].numberTrain << endl;
+			cout << "\t" << n[i].time_dep[0] << ":" << n[i].time_dep[1] << endl;
 		}
+		system("pause");
 		break;
 	}
 }
 
 void search_pointB(TRAIN n[], char c[], int size) {
-	cout << "pointB" << c;
 	for (int i = 0; i < size; i++) {
-		if (strcmp(c, n[i].pointA) == 0)
+		if (strcmp(c, n[i].pointB) == 0)
 		{
-			cout << n[i].pointA << endl;
-			cout << n[i].pointB << endl;
-			cout << n[i].numberTrain << endl;
-			cout << n[i].time_dep << endl;
+			cout << "\t" << n[i].pointA << endl;
+			cout << "\t" << n[i].pointB << endl;
+			cout << "\t" << n[i].numberTrain << endl;
+			cout << "\t" << n[i].time_dep[0] << ":" << n[i].time_dep[1] << endl;
 		}
+		system("pause");
 		break;
 	}
 }
 
 void search_num_Tr(TRAIN n[], char c[], int size) {
-	cout << "numTr" << c;
 	for (int i = 0; i < size; i++) {
-		if (strcmp(c, n[i].pointA) == 0)
+		if (strcmp(c, n[i].numberTrain) == 0)
 		{
-			cout << n[i].pointA << endl;
-			cout << n[i].pointB << endl;
-			cout << n[i].numberTrain << endl;
-			cout << n[i].time_dep << endl;
+			cout << "\t" << n[i].pointA << endl;
+			cout << "\t" << n[i].pointB << endl;
+			cout << "\t" << n[i].numberTrain << endl;
+			cout << "\t" << n[i].time_dep[0] << ":" << n[i].time_dep[1] << endl;
 		}
+		system("pause");
 		break;
 	}
 }
@@ -190,7 +190,7 @@ int main() {
 	do
 	{
 		system("cls");
-		cout << "1 Добовление данных" << endl;
+		cout << "1 Добавление данных" << endl;
 		cout << "2 Удаление записи" << endl;
 		cout << "3 Печать списка" << endl;
 		cout << "4 Поиск " << endl;
